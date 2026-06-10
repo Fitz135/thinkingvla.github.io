@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ThinkingVLA: Interleaved Vision and Language Reasoning for Robotic Manipulation">
+  <meta name="keywords" content="ThinkingVLA, VLA, Chain-of-Thought, Robotic Manipulation, Vision-Language-Action">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ThinkingVLA: Interleaved Vision and Language Reasoning for Robotic Manipulation</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ThinkingVLA: Interleaved Vision and Language Reasoning for Robotic Manipulation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Tianyi Lu<sup>1,2</sup>,</span>
+            <span class="author-block">Hui Zhang<sup>1</sup>,</span>
+            <span class="author-block">Zijie Diao<sup>1</sup>,</span>
+            <span class="author-block">Junke Wang<sup>1</sup>,</span>
+            <span class="author-block">Shengqi Xu<sup>1</sup>,</span>
+            <span class="author-block">Xingyao Lin<sup>1,2</sup>,</span>
+            <span class="author-block">Guojin Zhong<sup>1</sup>,</span>
+            <span class="author-block">Ziyi Ye<sup>1</sup>,</span>
+            <span class="author-block">Peng Wang<sup>4</sup>,</span>
+            <span class="author-block">Zuxuan Wu<sup>1,2,3</sup>,</span>
+            <span class="author-block">Yu-Gang Jiang<sup>1</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Fudan University,</span>
+            <span class="author-block"><sup>2</sup>Shanghai Innovation Institute,</span>
+            <span class="author-block"><sup>3</sup>Neote AI,</span>
+            <span class="author-block"><sup>4</sup>China Unicom</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Data Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-database"></i>
+                  </span>
+                  <span>Data</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/figures/teaser.png" alt="ThinkingVLA teaser figure" style="width: 100%;">
+      <h2 class="subtitle has-text-centered" style="margin-top: 15px;">
+        <b>ThinkingVLA</b> decomposes manipulation planning into prediction and inverse dynamics,
+        bridged by interleaved textual and visual chain-of-thought reasoning within a unified autoregressive architecture.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Most Vision-Language-Action (VLA) models map observations directly to actions without explicit reasoning, limiting their capacity for reasoning-intensive long-horizon tasks.
+            To address this, existing approaches adopt Chain-of-Thought (CoT) reasoning to enable subgoal decomposition and spatial anticipation.
+            However, those methods lack a unified architecture for effective cross-modal reasoning and fail to explicitly include inverse reasoning ability based on the target state.
+          </p>
+          <p>
+            We argue that manipulation planning naturally decomposes into <em>prediction</em>, anticipating the next visual state, and <em>inverse dynamics</em>, inferring the actions to reach it.
+            Bridging both requires a unified autoregressive architecture that interleaves textual and visual reasoning in a single generation process.
+          </p>
+          <p>
+            We propose <b>ThinkingVLA</b>, a generative model that realizes this decomposition within a unified Mixture-of-Transformers architecture.
+            ThinkingVLA consists of a forward CoT that identifies the immediate subgoal and guides the visual forecasting; the predicted image then serves as the target state, grounding an inverse CoT that reasons about spatial relationships and action intent based on the predicted image; and the final action is generated conditioned on this full reasoning context.
+            Extensive experiments on simulation and real-world benchmarks demonstrate that ThinkingVLA consistently outperforms state-of-the-art baselines, with particularly large gains on long-horizon manipulation tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Demo Videos -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Real-World Demos</h2>
+
+        <!-- Row 1: Basic Tasks -->
+        <h3 class="title is-4">Basic Tasks</h3>
+        <div class="columns">
+          <div class="column">
+            <video autoplay controls muted loop playsinline width="100%">
+              <source src="./static/videos/hang_demo.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered"><b>Hang Cup</b></p>
+          </div>
+          <div class="column">
+            <video autoplay controls muted loop playsinline width="100%">
+              <source src="./static/videos/arrange_demo.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered"><b>Arrange Blocks</b></p>
+          </div>
+          <div class="column">
+            <video autoplay controls muted loop playsinline width="100%">
+              <source src="./static/videos/pick_demo.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered"><b>Place Cubes</b></p>
+          </div>
+        </div>
+
+        <!-- Row 2: Long-Horizon Tasks -->
+        <h3 class="title is-4">Long-Horizon Tasks</h3>
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <video autoplay controls muted loop playsinline width="100%">
+              <source src="./static/videos/make_breakfast_demo.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered"><b>Make Breakfast</b></p>
+          </div>
+          <div class="column is-half">
+            <video autoplay controls muted loop playsinline width="100%">
+              <source src="./static/videos/equation_demo.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered"><b>Assemble Equation</b></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Method -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            ThinkingVLA adopts a <b>Mixture-of-Transformers (MoT)</b> architecture with two coupled experts:
+            a <em>thinking expert</em> that generates the interleaved reasoning chain, and an <em>action expert</em> that produces action chunks via flow matching.
+          </p>
+
+          <p>
+            At each decision step, the model generates a structured reasoning sequence:
+          </p>
+          <ol>
+            <li><b>Forward CoT</b>: interprets the task instruction and reasons about the desired next state</li>
+            <li><b>Future Image Prediction</b>: visualizes the anticipated next state, guided by the forward reasoning</li>
+            <li><b>Inverse CoT</b>: reasons about how to reach the predicted state through concrete actions</li>
+            <li><b>Action Generation</b>: produces the action chunk conditioned on the full reasoning context</li>
+          </ol>
+        </div>
+
+        <div class="has-text-centered">
+          <img src="./static/figures/arch.png" alt="ThinkingVLA architecture" style="width: 100%; max-width: 900px;">
+          <p class="is-size-6 has-text-grey" style="margin-top: 10px;">
+            <b>Architecture overview.</b> The thinking expert generates interleaved textual reasoning and future image tokens;
+            the action expert produces the action chunk via flow matching, conditioned on the reasoning context through shared attention.
+          </p>
+        </div>
+
+        <br>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4">Training Pipeline</h3>
+          <p>ThinkingVLA is trained in three progressive stages:</p>
+          <ul>
+            <li><b>Stage 1 &mdash; Generative Reasoning Pretraining:</b> The thinking expert learns to generate forward reasoning and a single future image, without action prediction.</li>
+            <li><b>Stage 2 &mdash; End-to-end Policy Learning:</b> The action expert is introduced; the model generates the full reasoning chain and predicts actions on a large mixture of manipulation datasets.</li>
+            <li><b>Stage 3 &mdash; Target Robot Adaptation:</b> The full model is fine-tuned on each target dataset, extending to multi-view future image prediction.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Results</h2>
+
+        <!-- Simulation Results -->
+        <h3 class="title is-4">Simulation: RoboTwin 2.0</h3>
+        <div class="content has-text-justified">
+          <p>
+            ThinkingVLA achieves the highest average success rate on 20 RoboTwin tasks.
+            The advantage grows with task horizon: on Horizon=3 tasks, ThinkingVLA reaches 60.0% (Easy) and 23.6% (Hard),
+            outperforming all baselines.
+          </p>
+        </div>
+
+        <div class="content">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth" style="font-size: 0.9em;">
+            <thead>
+              <tr>
+                <th rowspan="2">Metric</th>
+                <th colspan="2">&pi;<sub>0</sub></th>
+                <th colspan="2">XVLA</th>
+                <th colspan="2">UP-VLA</th>
+                <th colspan="2">BagelVLA</th>
+                <th colspan="2"><b>ThinkingVLA (Ours)</b></th>
+              </tr>
+              <tr>
+                <th>Easy</th><th>Hard</th>
+                <th>Easy</th><th>Hard</th>
+                <th>Easy</th><th>Hard</th>
+                <th>Easy</th><th>Hard</th>
+                <th>Easy</th><th>Hard</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Avg<sub>Horizon=1</sub></td>
+                <td>61.5</td><td>27.0</td>
+                <td>85.9</td><td><b>49.7</b></td>
+                <td>76.4</td><td>24.8</td>
+                <td><b>91.0</b></td><td>26.7</td>
+                <td><u>90.2</u></td><td><u>33.4</u></td>
+              </tr>
+              <tr>
+                <td>Avg<sub>Horizon=2</sub></td>
+                <td>43.6</td><td>6.0</td>
+                <td><u>60.2</u></td><td><u>23.6</u></td>
+                <td>28.8</td><td>3.2</td>
+                <td>55.8</td><td>7.0</td>
+                <td><b>71.0</b></td><td><b>26.6</b></td>
+              </tr>
+              <tr>
+                <td>Avg<sub>Horizon=3</sub></td>
+                <td>32.6</td><td>8.6</td>
+                <td>44.6</td><td><u>18.6</u></td>
+                <td>23.2</td><td>0.2</td>
+                <td><u>55.8</u></td><td>6.8</td>
+                <td><b>60.0</b></td><td><b>23.6</b></td>
+              </tr>
+              <tr style="border-top: 2px solid #333;">
+                <td><b>Avg<sub>20 Tasks</sub></b></td>
+                <td>49.8</td><td>17.2</td>
+                <td>69.2</td><td><b>35.4</b></td>
+                <td>51.2</td><td>13.3</td>
+                <td><u>73.4</u></td><td>16.8</td>
+                <td><b>77.9</b></td><td><u>29.3</u></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <br>
+
+        <!-- Real-World Results -->
+        <h3 class="title is-4">Real-World Results</h3>
+        <div class="columns is-centered">
+          <div class="column is-three-quarters">
+            <div class="has-text-centered">
+              <img src="./static/figures/realworld_results.png" alt="Real-world results" style="width: 100%;">
+              <p class="is-size-6 has-text-grey" style="margin-top: 10px;">
+                <b>Real-world results.</b> Success rate (%) over 20 trials per task. ThinkingVLA outperforms baselines especially on long-horizon tasks.
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Reasoning Visualization</h2>
+        <div class="content has-text-justified">
+          <p>
+            We visualize the complete interleaved reasoning chain produced by ThinkingVLA on real-world rollouts.
+            Each row corresponds to one reasoning step and shows: the current observation, forward CoT reasoning about the expected visual change,
+            predicted multi-view future images, and inverse CoT identifying the action primitive.
+          </p>
+        </div>
+
+        <div class="has-text-centered">
+          <img src="./static/figures/app_vis.png" alt="Reasoning visualization on Make Breakfast" style="width: 100%;">
+          <p class="is-size-6 has-text-grey" style="margin-top: 10px;">
+            <b>Interleaved reasoning chain on Make Breakfast</b> (Horizon=3). Six steps cover the full task:
+            grasp plate &rarr; place plate &rarr; grasp bread &rarr; place bread &rarr; grasp kettle &rarr; pour water.
+            The predicted images closely match the actual observations at the next step.
+          </p>
+        </div>
+
+        <br>
+
+        <div class="has-text-centered">
+          <img src="./static/figures/app_vis_2.png" alt="Reasoning visualization on Place Cubes" style="width: 100%;">
+          <p class="is-size-6 has-text-grey" style="margin-top: 10px;">
+            <b>Interleaved reasoning chain on Place Cubes</b> (Horizon=2).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{thinkingvla2026,
+  title     = {ThinkingVLA: Interleaved Vision and Language Reasoning for Robotic Manipulation},
+  author    = {Anonymous},
+  journal   = {CoRL},
+  year      = {2026},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is based on the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page template,
+            licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
